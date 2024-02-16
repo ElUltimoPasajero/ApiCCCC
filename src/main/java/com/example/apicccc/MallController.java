@@ -100,6 +100,11 @@ public class MallController {
         return result;
     }
 
+    @GetMapping("/centros-comerciales-ordenados-por-aforo")
+    public List<String> getCentrosComercialesOrderedByAforo() {
+        List<String> result = repository.findNombreAforoOrderedByAforoDesc();
+        return result;
+    }
 
     @GetMapping("/namecccc-aforo-capacidadaparking")
     public List<Object[]> getNombreAforoCapacidadParking() {

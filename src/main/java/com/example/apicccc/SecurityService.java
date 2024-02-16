@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 public class SecurityService {
 
     public Boolean validateToken(String token){
-        /* .... */
 
         return (token.equals("t0k3n"));
     }

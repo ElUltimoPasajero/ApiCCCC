@@ -27,5 +27,6 @@ public interface CentroComercialRepositorio extends JpaRepository<CentroComercia
     @Query("SELECT c.nombre FROM CentroComercial c WHERE c.numerosalascine >= :numSalasCine")
     List<Object[]> findNombreByNumeroSalasCine(@PathVariable Integer numSalasCine);
 
-
+    @Query("SELECT CONCAT(c.nombre, ' - Aforo: ', c.aforo) FROM CentroComercial c ORDER BY c.aforo DESC")
+    List<String> findNombreAforoOrderedByAforoDesc();
 }
