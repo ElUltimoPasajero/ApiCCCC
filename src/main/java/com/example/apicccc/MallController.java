@@ -94,8 +94,8 @@ public class MallController {
         return result;
     }
 
-    @GetMapping("/namecccc-by-numero-salas-cine")
-    public List<Object[]> getNombreByNumeroSalasCine(@RequestParam Integer numSalasCine) {
+    @GetMapping("/namecccc-by-numero-salas-cine/{numSalasCine}")
+    public List<Object[]> getNombreByNumeroSalasCine(@PathVariable Integer numSalasCine) {
         List<Object[]> result = repository.findNombreByNumeroSalasCine(numSalasCine);
         return result;
     }

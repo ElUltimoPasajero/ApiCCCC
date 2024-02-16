@@ -3,17 +3,17 @@ package com.example.apicccc;
 import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
 
-public interface CentroComercialRepositorio extends JpaRepository<CentroComercial,Integer> {
+public interface CentroComercialRepositorio extends JpaRepository<CentroComercial, Integer> {
 
     List<CentroComercial> findByRecreativos(boolean b);
 
     @Query("SELECT c FROM CentroComercial c WHERE c.numerosalascine > 0")
     List<CentroComercial> findByCinema();
-
 
     @Query("SELECT c.nombre, c.localesrestauracion FROM CentroComercial c")
     List<Object[]> findNombresCentrosConLocalesRestauracion();
@@ -25,8 +25,7 @@ public interface CentroComercialRepositorio extends JpaRepository<CentroComercia
     List<Object[]> findNombreAforoCapacidadParking();
 
     @Query("SELECT c.nombre FROM CentroComercial c WHERE c.numerosalascine >= :numSalasCine")
-    List<Object[]> findNombreByNumeroSalasCine(Integer numSalasCine);
-
+    List<Object[]> findNombreByNumeroSalasCine(@PathVariable Integer numSalasCine);
 
 
 }
