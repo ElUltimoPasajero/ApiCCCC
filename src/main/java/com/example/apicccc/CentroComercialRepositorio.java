@@ -30,3 +30,16 @@ public interface CentroComercialRepositorio extends JpaRepository<CentroComercia
     @Query("SELECT CONCAT(c.nombre, ' - Aforo: ', c.aforo) FROM CentroComercial c ORDER BY c.aforo DESC")
     List<String> findNombreAforoOrderedByAforoDesc();
 }
+
+
+/*   @GetMapping("/order/{criterio}")
+    public List<String> getCentrosComercialesOrderedByAforo() {
+        List<String> result = repository.findNombreAforoOrderedByAforoDesc();
+        return result;
+    }*/
+
+
+/*    @GetMapping("/filter/{param}/{value}")
+    public List<CentroComercial> getCentrosComercialesConRecreativos(@RequestParam(name = "recreativos", defaultValue = "true") boolean recreativos) {
+        return repository.findByRecreativos(recreativos);
+    }*/
