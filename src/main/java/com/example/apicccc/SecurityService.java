@@ -1,13 +1,17 @@
 package com.example.apicccc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SecurityService {
 
-    public Boolean validateToken(String token){
+    @Autowired
+    private CentroComercialRepositorio centroComercialRepository;
 
-        return (token.equals("t0k3n"));
+    public Boolean validateTokenForDeletion(Integer centroComercialId, Integer providedToken) {
+        // Buscar el CentroComercial por su ID y token
+        return centroComercialRepository.findByIdAndToken(centroComercialId, providedToken)!=null;
     }
-
 }
+

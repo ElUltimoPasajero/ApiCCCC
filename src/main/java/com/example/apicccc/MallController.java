@@ -57,7 +57,7 @@ public class MallController {
     }
 
 
-    @GetMapping("/nombrecccc-fechainauguracion")
+    @GetMapping("/fechainauguracion")
     public List<CentroComercialDTO> getInfoCentrosComerciales() {
         List<CentroComercial> centrosComerciales = repository.findAll();
         List<CentroComercialDTO> infoCentrosComerciales = new ArrayList<>();
@@ -73,40 +73,40 @@ public class MallController {
         return infoCentrosComerciales;
     }
 
-    
-    @GetMapping("/with-cinema")
+
+    @GetMapping("/cinema")
     public List<CentroComercial> getCentrosConSalasDeCine() {
         List<CentroComercial> centrosComerciales = repository.findByCinema();
         return centrosComerciales;
     }
 
 
-    @GetMapping("/namecccc-localesrestauracion")
+    @GetMapping("/localesrestauracion")
     public List<Object[]> getCentrosConLocalesRestauracion() {
         List<Object[]> result = repository.findNombresCentrosConLocalesRestauracion();
         return result;
     }
 
 
-    @GetMapping("/namecccc-localesModa")
+    @GetMapping("/localesModa")
     public List<Object[]> getCentrosConLocalesModa() {
         List<Object[]> result = repository.findNombresCentrosConLocalesModa();
         return result;
     }
 
-    @GetMapping("/namecccc-by-numero-salas-cine/{numSalasCine}")
+    @GetMapping("/busquedaSalasCine/{numSalasCine}")
     public List<Object[]> getNombreByNumeroSalasCine(@PathVariable Integer numSalasCine) {
         List<Object[]> result = repository.findNombreByNumeroSalasCine(numSalasCine);
         return result;
     }
 
-    @GetMapping("/centros-comerciales-ordenados-por-aforo")
+    @GetMapping("/aforo")
     public List<String> getCentrosComercialesOrderedByAforo() {
         List<String> result = repository.findNombreAforoOrderedByAforoDesc();
         return result;
     }
 
-    @GetMapping("/namecccc-aforo-capacidadaparking")
+    @GetMapping("/capadidadparking")
     public List<Object[]> getNombreAforoCapacidadParking() {
         List<Object[]> result = repository.findNombreAforoCapacidadParking();
 
@@ -124,36 +124,35 @@ public class MallController {
     }
 
 
-    @PostMapping("/")
+  /*  @PostMapping("/")
     public ResponseEntity<CentroComercial> nuevo(@RequestBody CentroComercial centroComercial, @RequestParam String token) {
         if (security.validateToken(token)) {
             return new ResponseEntity<CentroComercial>(repository.save(centroComercial), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-    }
+    }*/
+
+
 
 
     @DeleteMapping("/{id}")
+    public ResponseEntity<CentroComercial> delete(@PathVariable Integer id, @RequestParam Integer token) {
+        if (security.validateTokenForDeletion(id, token)) {
+            CentroComercial centroComercial = repository.findByIdAndToken(id, token);
 
-    public ResponseEntity<CentroComercial> delete(@PathVariable Integer id, @RequestParam String token) {
-
-        ResponseEntity<CentroComercial> respuesta = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-
-        if (security.validateToken(token)) {
-            CentroComercial salida = new CentroComercial();
-            if (repository.existsById(id)) {
-                salida = repository.findById(id).get();
+            if (centroComercial != null) {
                 repository.deleteById(id);
-                respuesta = new ResponseEntity<CentroComercial>(salida, HttpStatus.OK);
+                return new ResponseEntity<>(centroComercial, HttpStatus.OK);
             } else {
-                respuesta = new ResponseEntity<CentroComercial>(salida, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        return respuesta;
     }
 
-    @PutMapping("/{id}")
+/*    @PutMapping("/{id}")
 
     public ResponseEntity<CentroComercial> put(@PathVariable Integer id, @RequestBody CentroComercial centroNuevo, @RequestParam String token) {
 
@@ -188,5 +187,8 @@ public class MallController {
 
     }
 
+*/
+    }
 
-}
+
+

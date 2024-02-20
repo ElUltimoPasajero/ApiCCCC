@@ -27,6 +27,7 @@ public class CentroComercial implements Serializable {
     private String horario;
     private String fechainauguracion;
     private String descripcion;
+    private Integer token;
 
 
 

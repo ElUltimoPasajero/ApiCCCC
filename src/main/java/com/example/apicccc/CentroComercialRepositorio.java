@@ -12,6 +12,8 @@ public interface CentroComercialRepositorio extends JpaRepository<CentroComercia
 
     List<CentroComercial> findByRecreativos(boolean b);
 
+    CentroComercial findByIdAndToken(Integer id, Integer token);
+
     @Query("SELECT c FROM CentroComercial c WHERE c.numerosalascine > 0")
     List<CentroComercial> findByCinema();
 
