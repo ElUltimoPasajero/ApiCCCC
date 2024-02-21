@@ -125,18 +125,14 @@ public class MallController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<CentroComercial> nuevo(
-            @RequestBody CentroComercial centroComercial,
-            @RequestParam String token) {
-
-        if (security.validateToken(centroComercial.getId(), Integer.parseInt(token))) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<CentroComercial> nuevo(@RequestBody CentroComercial centroComercial) {
+        try {
+            CentroComercial nuevoCentroComercial = repository.save(centroComercial);
+            return new ResponseEntity<>(nuevoCentroComercial, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return new ResponseEntity<>(repository.save(centroComercial), HttpStatus.OK);
     }
-
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<CentroComercial> delete(@PathVariable Integer id, @RequestParam Integer token) {
@@ -184,6 +180,25 @@ public class MallController {
 
 
     }
+/*POST http://localhost:8080/api
+Content-Type: application/json
 
+{"nombre": "aDAdaDASDASDASDASDAd",
+  "direccion": "werwewerwer",
+  "tamaño": 9.345,
+  "telefono": 952348764,
+  "localesrestauracion": "Gourmet Bistro, Mediterranean Delights, Sushi Fusion, Parisian Brasserie, The Steakhouse, Pizzeria Italia, International Flavors Café, Fresh & Healthy, Tapas Lounge, Fusion Grill, Gelato Paradise, Tea House Elegance, Wine & Dine Lounge, Coffee Artistry\r\n",
+  "localesmoda": "'Fashion Boutique, Trendy Styles, Urban Chic, Haute Couture, Denim Den, Vintage Vogue, Glamour Haven, Streetwear Emporium, Classy Attire, Boho Beauty, Sports Couture, Tailored Elegance, Runway Ready, Casual Comfort, Timeless Threads'\r\n",
+  "recreativos": false,
+  "numerosalascine": 0,
+  "aforo": 679,
+  "capacidadaparcamiento": 265,
+  "horario": "9:30-11:00",
+  "fechainauguracion": "19-09-1979",
+  "descripcion": "Bienvenido al icónico Centro Comercial El Corte Inglés, un referente de compras y estilo de vida en [ciudad]. Descubre un mundo de exclusividad y variedad con nuestras reconocidas tiendas de moda, desde las últimas tendencias hasta prestigiosas marcas internacionales. Sumérgete en la experiencia gastronómica en nuestros elegantes restaurantes y cafeterías. El Corte Inglés es más que un centro comercial; es un destino completo con áreas recreativas, eventos culturales y una amplia oferta de servicios. Explora nuestras plantas dedicadas a productos de alta calidad, desde moda y belleza hasta tecnología y hogar. Con su elegante arquitectura y un ambiente vibrante, El Corte Inglés te invita a vivir una experiencia de compras única y exclusiva.",
+  "token": 234234
+}
+
+*/
 
 
