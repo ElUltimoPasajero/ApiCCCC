@@ -9,7 +9,7 @@ public class SecurityService {
     @Autowired
     private CentroComercialRepositorio centroComercialRepository;
 
-    public Boolean validateTokenForDeletion(Integer centroComercialId, Integer providedToken) {
+    public Boolean validateToken(Integer centroComercialId, Integer providedToken) {
         // Buscar el CentroComercial por su ID y token
         return centroComercialRepository.findByIdAndToken(centroComercialId, providedToken)!=null;
     }

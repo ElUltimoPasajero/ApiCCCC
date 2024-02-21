@@ -124,21 +124,23 @@ public class MallController {
     }
 
 
-  /*  @PostMapping("/")
-    public ResponseEntity<CentroComercial> nuevo(@RequestBody CentroComercial centroComercial, @RequestParam String token) {
-        if (security.validateToken(token)) {
-            return new ResponseEntity<CentroComercial>(repository.save(centroComercial), HttpStatus.OK);
-        } else {
+    @PostMapping("/create")
+    public ResponseEntity<CentroComercial> nuevo(
+            @RequestBody CentroComercial centroComercial,
+            @RequestParam String token) {
+
+        if (security.validateToken(centroComercial.getId(), Integer.parseInt(token))) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-    }*/
 
+        return new ResponseEntity<>(repository.save(centroComercial), HttpStatus.OK);
+    }
 
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<CentroComercial> delete(@PathVariable Integer id, @RequestParam Integer token) {
-        if (security.validateTokenForDeletion(id, token)) {
+        if (security.validateToken(id, token)) {
             CentroComercial centroComercial = repository.findByIdAndToken(id, token);
 
             if (centroComercial != null) {
@@ -151,43 +153,36 @@ public class MallController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
+    @PutMapping("update/{id}")
+    public ResponseEntity<CentroComercial> put(@PathVariable Integer id, @RequestBody CentroComercial centroNuevo, @RequestParam Integer token) {
 
-/*    @PutMapping("/{id}")
-
-    public ResponseEntity<CentroComercial> put(@PathVariable Integer id, @RequestBody CentroComercial centroNuevo, @RequestParam String token) {
-
-        if (!security.validateToken(token)) {
+        if (!security.validateToken(id, token)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } else {
-            var centroComercial = new CentroComercial();
-
-            var optionalCentroComercial = repository.findById(id);
-
-            if (optionalCentroComercial.isEmpty()) {
-                centroComercial = centroNuevo;
-            } else {
-                centroComercial = optionalCentroComercial.get();
-                centroComercial.setNombre(centroNuevo.getNombre());
-                centroComercial.setDireccion(centroNuevo.getDireccion());
-                centroComercial.setTamaño(centroNuevo.getTamaño());
-                centroComercial.setTelefono(centroNuevo.getTelefono());
-                centroComercial.setLocalesrestauracion(centroNuevo.getLocalesrestauracion());
-                centroComercial.setLocalesmoda(centroNuevo.getLocalesmoda());
-                centroComercial.setRecreativos(centroNuevo.getRecreativos());
-                centroComercial.setAforo(centroNuevo.getAforo());
-                centroComercial.setCapacidadaparcamiento(centroNuevo.getCapacidadaparcamiento());
-                centroComercial.setHorario(centroNuevo.getHorario());
-                centroComercial.setFechainauguracion(centroNuevo.getFechainauguracion());
-                centroComercial.setDescripcion(centroNuevo.getDescripcion());
-
-            }
-
-            return new ResponseEntity<CentroComercial>(repository.save(centroComercial), HttpStatus.OK);
         }
 
+        CentroComercial centroComercial = repository.findByIdAndToken(id, token);
+
+        if (centroComercial == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        centroComercial.setNombre(centroNuevo.getNombre());
+        centroComercial.setDireccion(centroNuevo.getDireccion());
+        centroComercial.setTamaño(centroNuevo.getTamaño());
+        centroComercial.setTelefono(centroNuevo.getTelefono());
+        centroComercial.setLocalesrestauracion(centroNuevo.getLocalesrestauracion());
+        centroComercial.setLocalesmoda(centroNuevo.getLocalesmoda());
+        centroComercial.setRecreativos(centroNuevo.getRecreativos());
+        centroComercial.setAforo(centroNuevo.getAforo());
+        centroComercial.setCapacidadaparcamiento(centroNuevo.getCapacidadaparcamiento());
+        centroComercial.setHorario(centroNuevo.getHorario());
+        centroComercial.setFechainauguracion(centroNuevo.getFechainauguracion());
+        centroComercial.setDescripcion(centroNuevo.getDescripcion());
+
+        return new ResponseEntity<>(repository.save(centroComercial), HttpStatus.OK);
     }
 
-*/
+
     }
 
 
