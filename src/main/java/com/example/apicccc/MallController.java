@@ -13,6 +13,8 @@ import java.util.List;
 @RequestMapping("/api/")
 public class MallController {
 
+    @Autowired
+    private SecurityPostService securityPostService;
 
     @Autowired
     private CentroComercialRepositorio repository;
@@ -126,11 +128,13 @@ public class MallController {
 
     @PostMapping("/create")
     public ResponseEntity<CentroComercial> nuevo(@RequestBody CentroComercial centroComercial) {
-        try {
+        Integer generatedToken = securityPostService.generateToken();
+
+        if (securityPostService.validateGeneratedToken(generatedToken, generatedToken)) {
             CentroComercial nuevoCentroComercial = repository.save(centroComercial);
             return new ResponseEntity<>(nuevoCentroComercial, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -180,7 +184,7 @@ public class MallController {
 
 
     }
-/*POST http://localhost:8080/api
+/*POST http://localhost:8080/create
 Content-Type: application/json
 
 {"nombre": "aDAdaDASDASDASDASDAd",
@@ -196,7 +200,7 @@ Content-Type: application/json
   "horario": "9:30-11:00",
   "fechainauguracion": "19-09-1979",
   "descripcion": "Bienvenido al icónico Centro Comercial El Corte Inglés, un referente de compras y estilo de vida en [ciudad]. Descubre un mundo de exclusividad y variedad con nuestras reconocidas tiendas de moda, desde las últimas tendencias hasta prestigiosas marcas internacionales. Sumérgete en la experiencia gastronómica en nuestros elegantes restaurantes y cafeterías. El Corte Inglés es más que un centro comercial; es un destino completo con áreas recreativas, eventos culturales y una amplia oferta de servicios. Explora nuestras plantas dedicadas a productos de alta calidad, desde moda y belleza hasta tecnología y hogar. Con su elegante arquitectura y un ambiente vibrante, El Corte Inglés te invita a vivir una experiencia de compras única y exclusiva.",
-  "token": 234234
+  "token":234234
 }
 
 */
